@@ -22,7 +22,7 @@ def main():
         port = 8080
         server = HTTPServer(('',port), webserverHandler)
         print "Web server running onb port %s" % port
-        serve.serve_forever()
+        server.serve_forever()
 
 
 
