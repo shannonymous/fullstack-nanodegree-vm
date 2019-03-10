@@ -20,7 +20,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                 self.end_headers()
 
                 output = ""
-                output += "<html><body>&#161;Hola!</body></html>"
+                output += "<html><body>&#161;Hola!  <a href="https://www.w3schools.com">Visit W3Schools</a></body></html>"
                 self.wfile.write(output)
                 print output
                 return
