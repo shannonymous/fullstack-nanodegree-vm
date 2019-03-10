@@ -27,6 +27,17 @@ class webserverHandler(BaseHTTPRequestHandler):
                 for restaurant in restaurants:
                     output += restaurant.name
                     output += "</br>"
+                    output += "<a href='#'>Edit</a>"
+                    #edit = session.query(Restaurant).filter_by(id='n').one()
+                    #session.add(edit)
+                    #session.commit()
+                    output += "</br>"
+                    output += "<a href='#'>Delete</a>
+                    #delete = session.query(Restaurant).filter_by(name = 'n').one()
+                    #session.delete(spinach)
+                    #session.commit()
+                    output += "</br>"
+                    output += "</br>"
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
