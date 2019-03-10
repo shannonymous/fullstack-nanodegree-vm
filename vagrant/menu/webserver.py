@@ -4,7 +4,7 @@ import cgi
 #import CRUD Operations
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Restaurant, MenuItem
+from database_setup import Base, Restaurant, menuItem
 
 #creates session variable and connect to the DB
 engine = create_engine('sqlite:///restaurantMenu.db')
@@ -17,11 +17,11 @@ class webserverHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             if self.path.endswith("/restuarants"):
+                restaurants = session.query(Restaurant).all()
+                output = ""
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
-
-                output = ""
                 output += "<html><body>"
                 output += "Hello!"
                 for restuarant in restaurants:
