@@ -20,7 +20,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 def main():
     try:
         port = 8080
-        BaseHTTPServer.HTTPServer(('',port), webserverHandler)
+        server = HTTPServer(('',port), webserverHandler)
         print "Web server running onb port %s" % port
         serve.serve_forever()
 
