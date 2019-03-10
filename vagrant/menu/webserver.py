@@ -4,7 +4,7 @@ import cgi
 #import CRUD Operations
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Restaurant, MenuItem
+from database_setup import Base, Restaurant, menuItem
 
 #creates session variable and connect to the DB
 engine = create_engine('sqlite:///restaurantMenu.db')
@@ -17,21 +17,38 @@ class webserverHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             if self.path.endswith("/restuarants"):
+                restaurants = session.query(Restaurant).all()
+                output = ""
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                output += "<html><body>"
+                output += "Hello!"
+                for restaurant in restaurants:
+                    output += restaurant.name
+                    output += "</br>"
+                output += "</body></html>"
+                self.wfile.write(output)
+                print output
+                return
+
+
+            #hello
+            if self.path.endswith("/hello"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
                 output = ""
                 output += "<html><body>"
-                output += "Hello!"
-                for restuarant in restaurants:
-                    output += restaurant.name
-                    output += "\n"
+                output += "Hello"
+                output += "<form method ='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?<h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
                 return
 
+            #hola
             if self.path.endswith("/hola"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
@@ -85,7 +102,7 @@ def main():
 
 
     except KeyboardInterrupt:
-        print "entered, stopping web server..."
+        print " entered, stopping web server..."
         server.socket.close()
 
 if __name__ == '__main__':
