@@ -24,14 +24,14 @@ class SportCategory(Base):
         }
 
 
-class sportItem(Base):
+class SportItem(Base):
 
     __tablename__ = 'sport_item'
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
     description = Column(String(250))
     category_id = Column(Integer, ForeignKey('category.id'))
-    sportcategory = relationship(SportCategory)
+    sport = relationship(SportCategory)
 
 # We added this serialize function to be able to send JSON objects in a
 # serializable format
