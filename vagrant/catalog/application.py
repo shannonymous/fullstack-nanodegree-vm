@@ -5,11 +5,18 @@ from database_setup import Base, Restaurant, menuItem
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///restaurantmenu.db')
+engine = create_engine('sqlite:///sports.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+@app.route('/')
+@app.route('/catalog')
+def catalog():
+    catalog =session.query(SportCategory).all()
+    
+    return render_template('sports.html', catalog=catalog)
 
 
 
