@@ -11,8 +11,9 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+#Root
 @app.route('/')
-@app.route('/catalog')
+@app.route('/catalog/')
 def catalog():
     categories = session.query(SportCategory).all()
     items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
@@ -23,17 +24,18 @@ def catalog():
 #Create routing for All items in a Sport category
 @app.route('/catalog/<path:category_name>/Items')
 def sport(category_name):
+    currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
+    itemInCategory = session.query(SportItem).filter_by(category_id = currentcategory.id)
     categories = session.query(SportCategory).all()
-    category = session.query(SportCategory).filter_by(name = category_name).one()
-    itemInCategory = session.query(SportItem).filter_by(category_id = category.id).all()
-    count = len(itemInCategory)
-    return render_template('sport.html', categories = categories, category = category, itemInCategory = itemInCategory, count = count)
+    return render_template('sport.html', categories = categories, currentcategory = currentcategory, itemInCategory = itemInCategory)
     #add login version of template
 
 #Create routing for specific item within Sport category
-#@app.route('/catalog/<path:category>/<path:name>')
-#def sportitem(category, name):
-#    return render_template('sportitem.html', catalog=catalog)
+@app.route('/catalog/<path:category_name>/<path:item_name>')
+def itemDescription(category_name, item_name):
+    currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
+    item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).one()
+    return render_template('sportitem.html', item = item)
 
 #Create routing for adding item to sport category
 
