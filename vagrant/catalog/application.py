@@ -15,9 +15,10 @@ session = DBSession()
 @app.route('/catalog')
 def catalog():
     catalog =session.query(SportCategory).all()
-    
+
     return render_template('sports.html', catalog=catalog)
 
+#JSON section
 
 
 if __name__ == '__main__':
