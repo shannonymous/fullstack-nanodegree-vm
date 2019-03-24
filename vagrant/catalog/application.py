@@ -14,9 +14,9 @@ session = DBSession()
 @app.route('/')
 @app.route('/catalog')
 def catalog():
-    catalog =session.query(SportCategory).all()
-
-    return render_template('catalog.html', catalog=catalog)
+    catalog = session.query(SportCategory).all()
+    latestItem = session.query(SportItem).join(SportItem.sportcategory).order_by(SportItem.id.desc()).limit(5).all()
+    return render_template('catalog.html', catalog=catalog, latestItem = latestItem)
 
 #Create routing for All items in a Sport category
 @app.route('/catalog/<path:category>/Items')
