@@ -1,0 +1,36 @@
+<html>
+<head>
+  <nav>
+    <h1>Catalog App</h1>
+    </nav>
+</head>
+<body>
+
+  <div>
+    <div>
+      <div>
+        <h1>Categories</h1></br></br>
+        <div>
+          {% for c in categories %}
+          <p><a href="/catalog/{{c.name}}/Items">{{c.name}}</a></p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <h1>{{category.name}} Items ({{Count}} Items)</h1></br></br>
+        {% for i in itemInCategory %}
+        <div>
+          <p>/
+            <!-- <a href="{{url_for('itemDescription', category_name=category.name, item_name = i.name)}}"> </a>-->
+            {{i.name}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

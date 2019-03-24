@@ -16,16 +16,19 @@ session = DBSession()
 def catalog():
     categories = session.query(SportCategory).all()
     items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
-    quantity = items.count()
     latestItem = session.query(SportItem, SportCategory).outerjoin(SportCategory, SportCategory.id==SportItem.category_id).order_by(SportItem.id.desc()).limit(10)
-    return render_template('catalog.html', categories=categories, items=items, quantity = quantity, latestItem = latestItem)
+    return render_template('catalog.html', categories=categories, items=items, latestItem = latestItem)
     #add login version of template
 
 #Create routing for All items in a Sport category
-#@app.route('/catalog/<path:category>/Items')
-#def sport():
-#    output = "All items within a sport category"
-    return output
+@app.route('/catalog/<path:category_name>/Items')
+def sport(category_name):
+    categories = session.query(SportCategory).all()
+    category = session.query(SportCategory).filter_by(name = category_name).one()
+    itemInCategory = session.query(SportItem).filter_by(category_id = category.id).all()
+    count = len(itemInCategory)
+    return render_template('sport.html', categories = categories, category = category, itemInCategory = itemInCategory, count = count)
+    #add login version of template
 
 #Create routing for specific item within Sport category
 #@app.route('/catalog/<path:category>/<path:name>')
