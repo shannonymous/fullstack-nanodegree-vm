@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <nav>
+      <h1>Catalog App</h1>
+    </nav>
+  </head>
+  <body>
+    <h1>Edit Item: {{i.name}}</h1></br></br>
+    <form action="/catalog/{{i.name}}/edit" method= "post">
+    <label for="name">Item Name</label>
+    <input type = 'text' size='30' name='name' placeholder='{{i.name}}'><br>
+    <label for="description">Description</label>
+    <input type = 'text' size='30' name='description' placeholder='{{i.description}}'><br>
+    <label for="category">Category</label>
+    <input type = 'text' size='30' name='category' placeholder='{{i.category}}'><br>
+    <input type = 'submit' value = 'Edit Item'>s
+  </body>
+
+</html>

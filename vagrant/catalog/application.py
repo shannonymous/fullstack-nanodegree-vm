@@ -40,8 +40,26 @@ def itemDescription(category_name, item_name):
 #Create routing for adding item to sport category
 
 #Create routing for editing sport items
+@app.route('/catalog/<path:category_name>/<path:item_name>/edit', methods = ['GET', 'POST'])
+def editItem(category_name, item_name):
+    currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
+    itemToEdit = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).one()
+    if request.method == 'POST':
+        itemToEdit.name = request.form['name']
+        itemToEdit.description = request.form['description']
+        itemToEdit.category = request.form['category']
+        session.add(itemToEdit)
+        session.commit()
+        return redirect(url_for('itemDescription', category_name=category_name, item_name=item_name, i = itemToEdit))
+    else:
+        return render_template('editsportitem.html', i = itemToEdit)
+
+
+return render_template('sportitem.html', item = item)
 
 #Create routing for deleting sport items
+@app.route('/catalog/<path:category_name>/<path:item_name>/delete', methods = ['GET', 'POST'])
+def deleteItem(category_name, item_name):
 
 #Create login page
 

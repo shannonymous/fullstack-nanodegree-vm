@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <nav>
+      <h1>Catalog App</h1>
+    </nav>
+  </head>
+  <body>
+    <h1>Delete Item: {{i.name}}</h1></br></br>
+    <form action="/catalog/{{i.name}}/delete" method='post'>
+      <p>Are you sure you want to delete {{i.name}}?</p>
+      <input type="submit" value="Delete">
+    </form>
+  </body>
+</html>
