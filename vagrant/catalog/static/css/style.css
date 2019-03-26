@@ -71,9 +71,19 @@ a {
 	padding-right: 1em;
 }
 
+.left-split {
+	width: 35%;
+	float: left;
+	border-right: 2px solid #d9e4ea;
+}
+
+.right-split {
+	width: 60%;
+	float: right;
+}
 .main-header {
-	padding-top: 1.5em;
-	padding-bottom: 1.5em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
 	background: #3acec2;
 	margin-bottom: 30px;
 }

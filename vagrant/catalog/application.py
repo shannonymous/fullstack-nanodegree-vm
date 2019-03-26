@@ -25,9 +25,9 @@ def catalog():
 @app.route('/catalog/<path:category_name>/Items')
 def sport(category_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
-    itemInCategory = session.query(SportItem).filter_by(category_id = currentcategory.id)
+    itemsincategory = session.query(SportItem).filter_by(category_id = currentcategory.id)
     categories = session.query(SportCategory).all()
-    return render_template('sport.html', categories = categories, currentcategory = currentcategory, itemInCategory = itemInCategory)
+    return render_template('sport.html', categories = categories, currentcategory = currentcategory, itemsincategory = itemsincategory)
     #add login version of template
 
 #Create routing for specific item within Sport category
@@ -35,7 +35,7 @@ def sport(category_name):
 def itemDescription(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).one()
-    return render_template('sportitem.html', item = item)
+    return render_template('sportitem.html', item=item, category=currentcategory)
 
 #Create routing for adding item to sport category
 @app.route('/catalog/new', methods = ['GET', 'POST'])
@@ -67,8 +67,17 @@ def editItem(category_name, item_name):
 #return render_template('sportitem.html', item = item)
 
 #Create routing for deleting sport items
-#@app.route('/catalog/<path:category_name>/<path:item_name>/delete', methods = ['GET', 'POST'])
-#def deleteItem(category_name, item_name):
+@app.route('/catalog/<path:category_name>/<path:item_name>/delete', methods = ['GET','POST'])
+def deleteItem(category_name, item_name):
+    currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
+    currentitem = session.query(SportItem).filter_by(name=item_name, category_id=currentcategory.id).one()
+    if request.method == 'POST':
+            session.delete(deleteItem)
+            session.commit()
+            return redirect(url_for('catalog'))
+    else:
+            return render_template('deletesportitem.htmnl', currentitem = currentitem, currentcategory=currentcategory)
+
 
 #Create login page
 

@@ -2,23 +2,25 @@
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <nav>
-    <h1>Catalog App</h1>
+  <nav class="main-header">
+    <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
   </nav>
 </head>
 <body>
 
-  <div>
-    <div>
-      <div>
+  <div class="container">
+      <div class="left-split">
         <h1>Categories</h1></br></br>
-        <div>
+      <div>
           {% for c in categories %}
           <p><a href="/catalog/{{c.name}}/Items">{{c.name}}</a></p>
           {% endfor %}
-        </div>
       </div>
-      <div>
+    </div>
+    <div class="right-split">
+        <p>
+          <h4><a href="/catalog/new">Add Item</a></h4>
+        </p>
         <h1>Latest Items</h1></br></br>
         {% for l in latestItem %}
 
@@ -27,7 +29,6 @@
         </div>
         {% endfor %}
       </div>
-    </div>
   </div>
 
 

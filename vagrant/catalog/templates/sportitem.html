@@ -2,25 +2,22 @@
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <nav>
-    <h1>Catalog App</h1>
+  <nav class="main-header">
+    <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
     </nav>
 </head>
 <body>
-
-<div>
-  <h1>{{item.name}}</h1></br></br>
+<div class="container">
+  <div>
+    <h1>{{item.name}}</h1></br></br>
+  </div>
+  <div>
+    <p>{{item.description}}</p>
+    <p>
+      <a href="{{ url_for('editItem', item_name=item.name, category_name=category.name) }}">Edit</a> | <a href="{{ url_for('deleteItem', item_name=item.name, category_name=category.name) }}">Delete</a>
+    </p>
+  </div>
 </div>
-
-<div>
-  <p>{{item.description}}</p>
-{#
-  <a href="{{url_for(editItem, category.name=category_name,  item.name=item_name)}}">Edit</a> |
-  <a href="{{url_for(deleteItem, category.name=category_name,  item.name=item_name )}}">Delete</a>
-#} 
-
-</div>
-
 
 </body>
 

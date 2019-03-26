@@ -2,8 +2,8 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <nav>
-      <h1>Catalog App</h1>
+    <nav class="main-header">
+      <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
     </nav>
   </head>
   <body>
@@ -15,7 +15,7 @@
     <input type = 'text' size='30' name='description' placeholder='{{i.description}}'><br>
     <label for="category">Category</label>
     <input type = 'text' size='30' name='category' placeholder='{{i.category}}'><br>
-    <input type = 'submit' value = 'Edit Item'>s
+    <input type = 'submit' value = 'Edit Item'>
   </body>
 
 </html>

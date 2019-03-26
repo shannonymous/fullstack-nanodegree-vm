@@ -2,14 +2,14 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <nav>
-      <h1>Catalog App</h1>
+    <nav class="main-header">
+      <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
     </nav>
   </head>
   <body>
-    <h1>Delete Item: {{i.name}}</h1></br></br>
-    <form action="/catalog/{{i.name}}/delete" method='post'>
-      <p>Are you sure you want to delete {{i.name}}?</p>
+    <h1>Delete Item: {{currentitem.name}} ({{currentcategory.name}})</h1></br></br>
+    <form action="/catalog/{{currentitem.name}}/delete" method='post'>
+      <p>Are you sure you want to delete {{currentitem.name}} from the {{currentcategory.name}} catalog?</p>
       <input type="submit" value="Delete">
     </form>
   </body>
