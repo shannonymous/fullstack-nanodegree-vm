@@ -5,7 +5,7 @@ from database_setup import Base, SportCategory, SportItem
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///sports.db')
+engine = create_engine('sqlite:///sports.db', connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -38,6 +38,15 @@ def itemDescription(category_name, item_name):
     return render_template('sportitem.html', item = item)
 
 #Create routing for adding item to sport category
+@app.route('/catalog/new', methods = ['GET', 'POST'])
+def newItem():
+    if request.method == 'POST':
+        newItem = SportItem( name=request.form['name'], description=request.form['description'], category_id = category_id)
+        session.add(newItem)
+        session.commit()
+        return redirect(url_for('sport', category_name = category_name))
+    else:
+        return render_template('newitem.html', categories = categories)
 
 #Create routing for editing sport items
 @app.route('/catalog/<path:category_name>/<path:item_name>/edit', methods = ['GET', 'POST'])
@@ -55,11 +64,11 @@ def editItem(category_name, item_name):
         return render_template('editsportitem.html', i = itemToEdit)
 
 
-return render_template('sportitem.html', item = item)
+#return render_template('sportitem.html', item = item)
 
 #Create routing for deleting sport items
-@app.route('/catalog/<path:category_name>/<path:item_name>/delete', methods = ['GET', 'POST'])
-def deleteItem(category_name, item_name):
+#@app.route('/catalog/<path:category_name>/<path:item_name>/delete', methods = ['GET', 'POST'])
+#def deleteItem(category_name, item_name):
 
 #Create login page
 
