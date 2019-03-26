@@ -1,5 +1,7 @@
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <nav>
       <h1>Catalog App</h1>
     </nav>
