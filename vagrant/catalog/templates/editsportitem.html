@@ -7,15 +7,24 @@
     </nav>
   </head>
   <body>
-    <h1>Edit Item: {{i.name}}</h1></br></br>
-    <form action="/catalog/{{i.name}}/edit" method= "post">
-    <label for="name">Item Name</label>
-    <input type = 'text' size='30' name='name' placeholder='{{i.name}}'><br>
-    <label for="description">Description</label>
-    <input type = 'text' size='30' name='description' placeholder='{{i.description}}'><br>
-    <label for="category">Category</label>
-    <input type = 'text' size='30' name='category' placeholder='{{i.category}}'><br>
-    <input type = 'submit' value = 'Edit Item'>
+    <div class="container">
+      <h1>Editing Item: {{i.name}}</h1></br>
+      <form method= "post">
+      <label for="name">Item Name</label>
+      <input type = 'text' size='30' name='name' placeholder='{{i.name}}'><br>
+      <label for="description">Description</label>
+      <input type = 'text' size='30' name='description' placeholder='{{i.description}}'><br>
+      <label for="category">Category</label>
+      <select name="category">
+        {% for c in categories %}
+        <option value="{{c.id}}" {% if c.name == currentcategory.name %} selected {% endif %}> {{c.name}} </option>
+      {% endfor %}
+      </select></br>
+      {#<!--<input type = 'text' size='30' name='category' placeholder='{{c.name}}'><br> -->#}
+      <button type="submit">
+        <span>Save</span>
+      </button>
+    </div>
   </body>
 
 </html>

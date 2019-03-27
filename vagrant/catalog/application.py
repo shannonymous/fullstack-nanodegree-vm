@@ -34,23 +34,25 @@ def sport(category_name):
 @app.route('/catalog/<path:category_name>/<path:item_name>')
 def itemDescription(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
-    item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).one()
+    item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).first()
     return render_template('sportitem.html', item=item, category=currentcategory)
 
 #Create routing for adding item to sport category
-@app.route('/catalog/new', methods = ['GET', 'POST'])
+@app.route('/catalog/newitem', methods = ['GET', 'POST'])
 def newItem():
+    categories = session.query(SportCategory).all()
     if request.method == 'POST':
-        newItem = SportItem( name=request.form['name'], description=request.form['description'], category_id = category_id)
+        newItem = SportItem( name=request.form['name'], description=request.form['description'], category_id=request.form['category'])
         session.add(newItem)
         session.commit()
-        return redirect(url_for('sport', category_name = category_name))
+        return redirect(url_for('catalog'))
     else:
         return render_template('newitem.html', categories = categories)
 
 #Create routing for editing sport items
 @app.route('/catalog/<path:category_name>/<path:item_name>/edit', methods = ['GET', 'POST'])
 def editItem(category_name, item_name):
+    categories = session.query(SportCategory).all()
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     itemToEdit = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).one()
     if request.method == 'POST':
@@ -61,24 +63,32 @@ def editItem(category_name, item_name):
         session.commit()
         return redirect(url_for('itemDescription', category_name=category_name, item_name=item_name, i = itemToEdit))
     else:
-        return render_template('editsportitem.html', i = itemToEdit)
+        return render_template('editsportitem.html', i = itemToEdit, categories=categories, currentcategory=currentcategory)
 
-
-#return render_template('sportitem.html', item = item)
 
 #Create routing for deleting sport items
 @app.route('/catalog/<path:category_name>/<path:item_name>/delete', methods = ['GET','POST'])
 def deleteItem(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
-    currentitem = session.query(SportItem).filter_by(name=item_name, category_id=currentcategory.id).one()
+    currentitem = session.query(SportItem).filter_by(name=item_name, category_id=currentcategory.id).first()
     if request.method == 'POST':
-            session.delete(deleteItem)
+            session.delete(currentitem)
             session.commit()
             return redirect(url_for('catalog'))
     else:
             return render_template('deletesportitem.htmnl', currentitem = currentitem, currentcategory=currentcategory)
 
-
+#Create routing for adding sports
+@app.route('/catalog/new', methods = ['GET', 'POST'])
+def newSport():
+    categories = session.query(SportCategory).all()
+    if request.method == 'POST':
+        newSport = SportCategory( name=request.form['name'] )
+        session.add(newSport)
+        session.commit()
+        return redirect(url_for('catalog'))
+    else:
+        return render_template('newcategory.html', categories = categories)
 #Create login page
 
 #hit up category JSON endpoint

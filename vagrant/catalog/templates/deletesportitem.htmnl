@@ -7,10 +7,12 @@
     </nav>
   </head>
   <body>
-    <h1>Delete Item: {{currentitem.name}} ({{currentcategory.name}})</h1></br></br>
-    <form action="/catalog/{{currentitem.name}}/delete" method='post'>
+    <div class="container">
+      <h1>Delete Item: {{currentitem.name}} ({{currentcategory.name}})</h1></br>
       <p>Are you sure you want to delete {{currentitem.name}} from the {{currentcategory.name}} catalog?</p>
-      <input type="submit" value="Delete">
-    </form>
+      <form action="{{url_for('deleteItem', category_name=currentcategory.name, item_name=currentitem.name)}}" method='post'>
+        <input type="submit" value="Delete">
+      </form>
+    </div>
   </body>
 </html>

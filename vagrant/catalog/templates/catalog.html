@@ -10,6 +10,9 @@
 
   <div class="container">
       <div class="left-split">
+        <p>
+          <h4><a href="{{url_for('newSport')}}">Add Sport</a></h4>
+        </p>
         <h1>Categories</h1></br></br>
       <div>
           {% for c in categories %}
@@ -19,7 +22,7 @@
     </div>
     <div class="right-split">
         <p>
-          <h4><a href="/catalog/new">Add Item</a></h4>
+          <h4><a href="{{url_for('newItem')}}">Add Item</a></h4>
         </p>
         <h1>Latest Items</h1></br></br>
         {% for l in latestItem %}
