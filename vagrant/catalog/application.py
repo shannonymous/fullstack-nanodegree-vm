@@ -271,6 +271,7 @@ def newSport():
         return redirect(url_for('catalog'))
     else:
         return render_template('newcategory.html', categories = categories)
+        #
 #Create login page
 
 #hit up category JSON endpoint

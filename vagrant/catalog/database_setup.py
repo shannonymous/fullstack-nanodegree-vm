@@ -12,10 +12,12 @@ Base = declarative_base()
 #================================
 class User(Base):
     __tablename__ = 'user'
+
     id = Column(Integer, primary_key=True)
-    name = Column(String(256), nullable=False)
-    email = Column(String(256), nullable=False)
-    picture = Column(String(256))
+    name = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    picture = Column(String(250))
+
 
 # We added this serialize function to be able to send JSON objects in a
 # serializable format
@@ -81,6 +83,6 @@ class SportItem(Base):
 
 
 ####end of file
-engine = create_engine('sqlite:///sports.db')
+engine = create_engine('sqlite:///sportswithusers.db')
 
 Base.metadata.create_all(engine)
