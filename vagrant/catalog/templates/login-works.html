@@ -1,0 +1,29 @@
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src ="/apis.google.com/js/api.js"></script>
+  <script>gapi.load('auth2', fuction() {
+    gapi.auth2.init();
+  })</script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="284011966474-kh8pfqa7vsioct3t6qqkev3grd9755s6.apps.googleusercontent.com">
+  <nav class="main-header">
+    <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
+  </nav>
+</head>
+<body>
+  <div class="container">
+    <p>Login to modify the sporting good database.</p></br></br>
+    <div class="g-signin2"
+      data-onsuccess="onSignIn"
+      data-scope="https://www.googleapis.com/auth/plus.login"
+      data-accesstype="offline"
+      data-redirecturi="http://localhost:8000/gconnect">
+    </div>
+    <div id="result"></div>
+  </div>
+
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, SportCategory, SportItem
+from database_setup import Base, SportCategory, SportItem, User
 
 from flask import session as login_session
 import random, string
@@ -13,6 +13,7 @@ from flask import make_response
 import requests
 
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+APPLICATION_NAME = "Sports Catalog"
 
 app = Flask(__name__)
 
@@ -21,7 +22,6 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-
 
 #===================
 # Login Routing
@@ -34,7 +34,7 @@ def showLogin():
                     for x in xrange(32))
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
-    return render_template('login.html', STATE=state)
+    return render_template('login-works.html', STATE=state)
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -127,37 +127,61 @@ def gconnect():
     print "done!"
     return output
 
+# User's Helper Functions
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
 # DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/gdisconnect')
 def gdisconnect():
+        # Only disconnect a connected user.
     access_token = login_session.get('access_token')
     if access_token is None:
-        print 'Access Token is None'
-        response = make_response(json.dumps('Current user not connected.'), 401)
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
+
     if result['status'] == '200':
+        # Reset the user's sesson.
         del login_session['access_token']
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
+
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
-        return response
+        return redirect(url_for('catalog'))
+
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        # For whatever reason, the given token was invalid.
+        response = make_response(
+            json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
-
 
 
 #Root
@@ -167,7 +191,10 @@ def catalog():
     categories = session.query(SportCategory).all()
     items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
     latestItem = session.query(SportItem, SportCategory).outerjoin(SportCategory, SportCategory.id==SportItem.category_id).order_by(SportItem.id.desc()).limit(10)
-    return render_template('catalog.html', categories=categories, items=items, latestItem = latestItem)
+    if 'username' not in login_session:
+        return render_template('publiccatalog.html', categories=categories, items=items, latestItem = latestItem)
+    else:
+        return render_template('catalog.html', categories=categories, items=items, latestItem = latestItem)
     #add login version of template
 
 #Create routing for All items in a Sport category
@@ -190,9 +217,12 @@ def itemDescription(category_name, item_name):
 @app.route('/catalog/newitem', methods = ['GET', 'POST'])
 def newItem():
     categories = session.query(SportCategory).all()
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
-        newItem = SportItem( name=request.form['name'], description=request.form['description'], category_id=request.form['category'])
+        newItem = SportItem( name=request.form['name'], description=request.form['description'], category_id=request.form['category'], user_id=login_session['user_id'])
         session.add(newItem)
+        #flash)('New item %s successfully created' %newItem.name)
         session.commit()
         return redirect(url_for('catalog'))
     else:
@@ -204,10 +234,13 @@ def editItem(category_name, item_name):
     categories = session.query(SportCategory).all()
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     itemToEdit = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).one()
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         itemToEdit.name = request.form['name']
         itemToEdit.description = request.form['description']
         itemToEdit.category = request.form['category']
+        #itemToEdit.user = request.form
         session.add(itemToEdit)
         session.commit()
         return redirect(url_for('itemDescription', category_name=category_name, item_name=item_name, i = itemToEdit))

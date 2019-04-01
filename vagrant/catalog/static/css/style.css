@@ -38,7 +38,7 @@ a {
 
 /* ---- Navigation ---- */
 
-.name {
+/*.name {
 	font-size: 1.25em;
 }
 
@@ -62,7 +62,7 @@ a {
 
 .main-nav a:hover {
 	color: #093a58;
-}
+}*/
 
 /* ---- Layout Containers ---- */
 
@@ -87,6 +87,10 @@ a {
 	background: #3acec2;
 	margin-bottom: 30px;
 }
+
+nav h1 {
+    padding: 0 .5em;
+	}
 
 .main-footer {
 	text-align: center;
