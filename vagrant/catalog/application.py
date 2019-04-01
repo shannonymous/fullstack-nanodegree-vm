@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, SportCategory, SportItem, User
@@ -33,8 +33,8 @@ def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     login_session['state'] = state
-    # return "The current session state is %s" % login_session['state']
-    return render_template('login-works.html', STATE=state)
+    #return "The current session state is %s" % login_session['state']
+    return render_template('login.html', STATE=state)
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -191,10 +191,7 @@ def catalog():
     categories = session.query(SportCategory).all()
     items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
     latestItem = session.query(SportItem, SportCategory).outerjoin(SportCategory, SportCategory.id==SportItem.category_id).order_by(SportItem.id.desc()).limit(10)
-    if 'username' not in login_session:
-        return render_template('publiccatalog.html', categories=categories, items=items, latestItem = latestItem)
-    else:
-        return render_template('catalog.html', categories=categories, items=items, latestItem = latestItem)
+    return render_template('catalog.html', categories=categories, items=items, latestItem = latestItem, login_session=session)
     #add login version of template
 
 #Create routing for All items in a Sport category
