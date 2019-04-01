@@ -17,7 +17,7 @@ APPLICATION_NAME = "Sports Catalog"
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///sports.db', connect_args={'check_same_thread': False})
+engine = create_engine('sqlite:///sportswithusers.db', connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)

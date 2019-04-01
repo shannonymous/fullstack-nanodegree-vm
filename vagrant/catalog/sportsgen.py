@@ -30,7 +30,13 @@ category1 = SportCategory(name = "Football", user_id=1)
 session.add(category1)
 session.commit()
 
+<<<<<<< HEAD
 item1 = SportItem(name="Gloves", description="No matter if you're a skill player or a lineman in the trenches, football gloves help players gain an edge on the field. Receivers, running backs and defensive backs depend on football gloves to grip the ball, while linemen benefit from the added warmth and protection gloves provide.", sport=category1, user_id=1)
+||||||| merged common ancestors
+item1 = SportItem(name="Gloves", description="No matter if you're a skill player or a lineman in the trenches, football gloves help players gain an edge on the field. Receivers, running backs and defensive backs depend on football gloves to grip the ball, while linemen benefit from the added warmth and protection gloves provide.", sport=category1)
+=======
+item1 = SportItem(name="Gloves", description="No matter if you're a skill player or a lineman in the trenches, football gloves help players gain an edge on the field. Receivers, running backs and defensive backs depend on football gloves to grip the ball, while linemen benefit from the added warmth and protection gloves provide.", sport=category1, , user_id=1)
+>>>>>>> c7eef9bd13001abd40acf946c9f2a380af469d1e
 
 session.add(item1)
 session.commit()
@@ -205,7 +211,13 @@ item2 = SportItem(name="Epee", description="The epee is the heaviest of the thre
 session.add(item2)
 session.commit()
 
+<<<<<<< HEAD
 item3 = SportItem(name="Sabre", description="The sabre is the 'cutting' weapon, with a curved guard (to protect the hand) and a triangular blade. However, in modern electric scoring, a touch with any part of the sabre, (point, flat or edge, as long as it is on target) will count as a hit. The target area in sabre is everything from the waist up, except for the hands.", sport=category9, user_id=1)
+||||||| merged common ancestors
+item3 = SportItem(name="Foil", description="The sabre is the 'cutting' weapon, with a curved guard (to protect the hand) and a triangular blade. However, in modern electric scoring, a touch with any part of the sabre, (point, flat or edge, as long as it is on target) will count as a hit. The target area in sabre is everything from the waist up, except for the hands.", sport=category9)
+=======
+item3 = SportItem(name="Foil", description="The sabre is the 'cutting' weapon, with a curved guard (to protect the hand) and a triangular blade. However, in modern electric scoring, a touch with any part of the sabre, (point, flat or edge, as long as it is on target) will count as a hit. The target area in sabre is everything from the waist up, except for the hands.", sport=category9, user_id=1)
+>>>>>>> c7eef9bd13001abd40acf946c9f2a380af469d1e
 session.add(item3)
 session.commit()
 
