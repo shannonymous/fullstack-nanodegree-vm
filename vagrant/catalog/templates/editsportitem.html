@@ -8,20 +8,19 @@
   </head>
   <body>
     <div class="container">
-      <h1>Editing Item: {{i.name}}</h1></br>
-      <form method= "post">
+      <h1>Editing Item: {{i.name}}</h1>
+      <form class="submission-form" method= "post">
       <label for="name">Item Name</label>
-      <input type = 'text' size='30' name='name' placeholder='{{i.name}}'><br>
+      <input type = 'text' name='name' placeholder='{{i.name}}'>
       <label for="description">Description</label>
-      <input type = 'text' size='30' name='description' placeholder='{{i.description}}'><br>
+      <input type = 'text' name='description' placeholder='{{i.description}}'>
       <label for="category">Category</label>
       <select name="category">
         {% for c in categories %}
         <option value="{{c.id}}" {% if c.name == currentcategory.name %} selected {% endif %}> {{c.name}} </option>
       {% endfor %}
-      </select></br>
-      {#<!--<input type = 'text' size='30' name='category' placeholder='{{c.name}}'><br> -->#}
-      <button type="submit">
+      </select>
+      <button id="btn" type="submit">
         <span>Save</span>
       </button>
     </div>

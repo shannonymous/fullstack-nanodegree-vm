@@ -97,7 +97,46 @@ nav h1 {
 	padding: 2em 0;
 	background: #d9e4ea;
 }
+/* =================================
+  Forms
+==================================== */
 
+.submission-form{
+	max-width:500px;
+	margin: 2rem auto;
+	padding: 2rem;
+}
+
+.submission-form label {
+	display: block;
+	padding: 1rem 0 .25rem;
+	font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.submission-form input, select {
+	display: block;
+	width: 100%;
+	padding: .5rem;
+	border-radius: 5px;
+	border: 2px solid #1C629B;
+}
+
+#btn {
+	border-radius: 15px;
+	padding: .5rem;
+	background: #093a58;
+	color: #fff;
+	margin: 1rem 0;
+	text-transform: uppercase;
+	cursor: pointer;
+	width: 100%;
+	transition: .3s background ease;
+}
+
+#btn:hover {
+	background: #D48371;
+}
 /* =================================
   Media Queries
 ==================================== */

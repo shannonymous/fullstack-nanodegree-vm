@@ -13,8 +13,13 @@
   </div>
   <div>
     <p>{{item.description}}</p>
-    <p>
-      <a href="{{ url_for('editItem', item_name=item.name, category_name=category.name) }}">Edit</a> | <a href="{{ url_for('deleteItem', item_name=item.name, category_name=category.name) }}">Delete</a>
+    {% if session['state'] %}
+      <p>
+        <a href="{{ url_for('editItem', item_name=item.name, category_name=category.name) }}">Edit</a> | <a href="{{ url_for('deleteItem', item_name=item.name, category_name=category.name) }}">Delete</a>
+      </p>
+    {% else %}
+    {% endif %}<p>
+
     </p>
   </div>
 </div>

@@ -192,7 +192,6 @@ def catalog():
     items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
     latestItem = session.query(SportItem, SportCategory).outerjoin(SportCategory, SportCategory.id==SportItem.category_id).order_by(SportItem.id.desc()).limit(10)
     return render_template('catalog.html', categories=categories, items=items, latestItem = latestItem, login_session=session)
-    #add login version of template
 
 #Create routing for All items in a Sport category
 @app.route('/catalog/<path:category_name>/Items')
@@ -208,7 +207,7 @@ def sport(category_name):
 def itemDescription(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).first()
-    return render_template('sportitem.html', item=item, category=currentcategory)
+    return render_template('sportitem.html', item=item, category=currentcategory, login_session=session)
 
 #Create routing for adding item to sport category
 @app.route('/catalog/newitem', methods = ['GET', 'POST'])
@@ -250,6 +249,8 @@ def editItem(category_name, item_name):
 def deleteItem(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     currentitem = session.query(SportItem).filter_by(name=item_name, category_id=currentcategory.id).first()
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
             session.delete(currentitem)
             session.commit()
@@ -261,6 +262,8 @@ def deleteItem(category_name, item_name):
 @app.route('/catalog/new', methods = ['GET', 'POST'])
 def newSport():
     categories = session.query(SportCategory).all()
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newSport = SportCategory( name=request.form['name'] )
         session.add(newSport)
