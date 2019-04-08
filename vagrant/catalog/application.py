@@ -183,6 +183,17 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+#===================
+#  Routing
+#===================
+#Add JSON API Endpoint
+@app.route('/catalog/JSON')
+@app.route('/catalog/json')
+def catalogJSON():
+    categories = session.query(SportCategory).all()
+    items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
+    return  jsonify(SportCategories=[c.serialize for c in categories], SportLatestItems=[i.serialize for i in items])
+
 
 #Root
 @app.route('/')
