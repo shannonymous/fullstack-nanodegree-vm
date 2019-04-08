@@ -2,9 +2,13 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <nav class="main-header">
-      <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
-    </nav>
+    <div class="topnav">
+    <a href="{{url_for('catalog')}}">Catalog App</a></h1>
+    <!--<a href="/catalog/sports">Sports</a>-->
+      <div class="topnav-right">
+        <a href="{{url_for('showLogin')}}">Log In</a>
+      </div>
+    </div>
   </head>
   <body>
     <div class="container">

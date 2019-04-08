@@ -1,9 +1,13 @@
 <html>
 
 <head>
-  <nav class="main-header">
-    <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
-  </nav>
+  <div class="topnav">
+  <a href="{{url_for('catalog')}}">Catalog App</a></h1>
+  <!--<a href="/catalog/sports">Sports</a>-->
+    <div class="topnav-right">
+      <a href="{{url_for('showLogin')}}">Log In</a>
+    </div>
+  </div>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -21,8 +25,8 @@
 
 <body>
   <div class="container">
-    <h3>Add/Edit/Delete actions can only be performed by authorized users.</br></br> Please log in to perform those actions.</h3></br></br>
-    <button id="signinButton" class="btn btn-secondary"> Log in with Google </button>
+    <h3>You must be logged in to perform authorized actions. Please login with your Google credentials.</h3></br></br>
+    <div id="signinButton"> </div>
     <div id="result"></div>
 </body>
 </div>

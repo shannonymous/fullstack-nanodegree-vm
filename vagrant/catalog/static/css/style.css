@@ -38,37 +38,54 @@ a {
 
 /* ---- Navigation ---- */
 
-/*.name {
-	font-size: 1.25em;
+.topnav {
+    background-color: #3acec2;
+    overflow: hidden;
 }
 
-.name,
-.main-nav li {
-	text-align: center;
-	background: #fff;
-	margin-top: 6px;
-	margin-bottom: 6px;
+.topnav a {
+  float: left;
+  color: #333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 1.25rem;
 }
 
-.main-nav li {
-  margin-right: 12px;
+.topnav a:hover {
+  background-color: #f2f2f2;
+  color: black;
 }
 
-.main-nav a {
-	font-size: .95em;
-	color: #3acec2;
-	text-transform: uppercase;
-}
-
-.main-nav a:hover {
-	color: #093a58;
+/*.topnav a.active {
+  background-color: #3acec2;
+  color: white;
 }*/
 
+.topnav-right {
+  float: right;
+}
+
+/* ---- Login Items ---------- */
+#signinButton {
+	background:url('../img/btn.png') no-repeat;
+    cursor:pointer;
+    border:none;
+    width:191px;
+    height:46px;
+}
+
+#signinButton:hover {
+	background:url('../img/btn-hover.png') no-repeat;
+}
+
+#signinButton:active {
+	background:url('../img/btn-hover.png') no-repeat;
+}
 /* ---- Layout Containers ---- */
 
 .container {
-	padding-left: 1em;
-	padding-right: 1em;
+	padding: 2rem;
 }
 
 .left-split {
@@ -81,16 +98,7 @@ a {
 	width: 60%;
 	float: right;
 }
-.main-header {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	background: #3acec2;
-	margin-bottom: 30px;
-}
 
-nav h1 {
-    padding: 0 .5em;
-	}
 
 .main-footer {
 	text-align: center;
@@ -119,14 +127,14 @@ nav h1 {
 	width: 100%;
 	padding: .5rem;
 	border-radius: 5px;
-	border: 2px solid #1C629B;
+	border: 2px solid #3acec2;
 }
 
 #btn {
 	border-radius: 15px;
 	padding: .5rem;
-	background: #093a58;
-	color: #fff;
+	background: #3acec2;
+	color: #333;
 	margin: 1rem 0;
 	text-transform: uppercase;
 	cursor: pointer;
@@ -135,7 +143,8 @@ nav h1 {
 }
 
 #btn:hover {
-	background: #D48371;
+	background: #f2f2f2;
+	color: black;
 }
 /* =================================
   Media Queries

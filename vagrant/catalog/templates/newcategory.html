@@ -2,16 +2,20 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <nav class="main-header">
-      <h1><a href="{{url_for('catalog')}}">Catalog App</a></h1>
-    </nav>
+    <div class="topnav">
+    <a href="{{url_for('catalog')}}">Catalog App</a></h1>
+    <!--<a href="/catalog/sports">Sports</a>-->
+      <div class="topnav-right">
+        <a href="{{url_for('showLogin')}}">Log In</a>
+      </div>
+    </div>
   </head>
   <body>
     <div class='container'>
       <h1>New Sport</h1>
       <form class="submission-form" action="{{url_for('newSport')}}" method = 'POST'>
         <label for="name">Sport Name</label>
-        <input type = 'text' size='30' name='name'><br>
+        <input type = 'text' size='30' name='name' required><br>
         <button type="submit" id="btn">
           <span>Create</span>
         </button>
