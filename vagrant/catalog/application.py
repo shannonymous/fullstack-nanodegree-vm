@@ -186,9 +186,15 @@ def gdisconnect():
 #===================
 #  Routing
 #===================
+#Add JSON API to return all users
+@app.route('/users.json')
+def usersJSON():
+    users = session.query(User).all()
+    return jsonify(Users = [u.serialize for u in users])
+
 #Add JSON API Endpoint
-@app.route('/catalog/JSON')
-@app.route('/catalog/json')
+@app.route('/catalog.JSON')
+@app.route('/catalog.json')
 def catalogJSON():
     categories = session.query(SportCategory).all()
     items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
@@ -213,12 +219,31 @@ def sport(category_name):
     return render_template('sport.html', categories = categories, currentcategory = currentcategory, itemsincategory = itemsincategory)
     #add login version of template
 
+# Add endpoint for all items in category
+@app.route('/catalog/<path:category_name>/items.json')
+@app.route('/catalog/<path:category_name>/items.JSON')
+def itemsJSON(category_name):
+    currentcategory = session.query(SportCategory).filter_by(name=category_name).one()
+    itemsincategory = session.query(SportItem).filter_by(category_id = currentcategory.id).all()
+    return jsonify(Items = [i.serialize for i in items])
+
 #Create routing for specific item within Sport category
 @app.route('/catalog/<path:category_name>/<path:item_name>')
 def itemDescription(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).first()
     return render_template('sportitem.html', item=item, category=currentcategory, login_session=session)
+
+
+
+
+#Add JSON API Endpoint for specific item in category
+@app.route('/catalog/<path:category_name>/<path:item_name>.JSON')
+@app.route('/catalog/<path:category_name>/<path:item_name>.json')
+def itemJSON(category_name, item_name):
+    currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
+    item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).first()
+    return jsonify(Item=[item])
 
 #Create routing for adding item to sport category
 @app.route('/catalog/newitem', methods = ['GET', 'POST'])
@@ -282,11 +307,6 @@ def newSport():
         return redirect(url_for('catalog'))
     else:
         return render_template('newcategory.html', categories = categories)
-        #
-#Create login page
-
-#hit up category JSON endpoint
-
 
 
 

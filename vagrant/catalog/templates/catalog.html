@@ -6,8 +6,11 @@
   <a href="{{url_for('catalog')}}">Catalog App</a>
   <!--<a href="/catalog/restaurants">Restaurants</a>-->
     <div class="topnav-right">
-      <a href="{{url_for('showLogin')}}">Log In</a>
-      <a href="{{url_for('gdisconnect')}}">Log Out</a>
+      {% if session['state'] %}
+        <a href="{{url_for('gdisconnect')}}">Log Out</a>
+      {% else %}
+        <a href="{{url_for('showLogin')}}">Log In</a>
+      {% endif %}
     </div>
   </div>
 </head>
