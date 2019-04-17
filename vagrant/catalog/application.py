@@ -225,7 +225,7 @@ def sport(category_name):
 def itemsJSON(category_name):
     currentcategory = session.query(SportCategory).filter_by(name=category_name).one()
     itemsincategory = session.query(SportItem).filter_by(category_id = currentcategory.id).all()
-    return jsonify(Items = [i.serialize for i in items])
+    return jsonify(Items = [i.serialize for i in itemsincategory])
 
 #Create routing for specific item within Sport category
 @app.route('/catalog/<path:category_name>/<path:item_name>')
@@ -235,15 +235,13 @@ def itemDescription(category_name, item_name):
     return render_template('sportitem.html', item=item, category=currentcategory, login_session=session)
 
 
-
-
 #Add JSON API Endpoint for specific item in category
 @app.route('/catalog/<path:category_name>/<path:item_name>.JSON')
 @app.route('/catalog/<path:category_name>/<path:item_name>.json')
 def itemJSON(category_name, item_name):
     currentcategory = session.query(SportCategory).filter_by(name = category_name).one()
     item = session.query(SportItem).filter_by(category_id=currentcategory.id, name=item_name).first()
-    return jsonify(Item=[item])
+    return jsonify(Item=item.serialize)
 
 #Create routing for adding item to sport category
 @app.route('/catalog/newitem', methods = ['GET', 'POST'])
