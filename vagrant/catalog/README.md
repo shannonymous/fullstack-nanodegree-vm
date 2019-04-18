@@ -8,7 +8,7 @@ This web application was built with HTML5, CSS, Vagrant, Flask, SQLAlchemy and G
 ## Instruction
 To run the web application:
 1. Install Vagrant and Virtual Box
-2. Clone [this repository](https://github.com/shannonymous/logs-analysis-project)
+2. Clone [this repository](https://github.com/shannonymous/fullstack-nanodegree-vm)
 3. Launch the Vagrant VM (in the *vagrant* folder directory  from the terminal) with the command:
 `vagrant up`
 4. Access the shell with:
