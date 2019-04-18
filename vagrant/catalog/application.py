@@ -17,8 +17,8 @@ import httplib2
 import json
 import requests
 
-CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web'
-        ]['client_id']
+CLIENT_ID = json.loads(open('client_secrets.json', 'r'
+                            ).read())['web']['client_id']
 APPLICATION_NAME = 'Sports Catalog'
 
 app = Flask(__name__)
@@ -39,8 +39,8 @@ session = DBSession()
 
 @app.route('/login')
 def showLogin():
-    state = ''.join(random.choice(string.ascii_uppercase
-                    + string.digits) for x in xrange(32))
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
     login_session['state'] = state
 
     # return "The current session state is %s" % login_session['state']
@@ -54,8 +54,7 @@ def gconnect():
     # Validate state token
 
     if request.args.get('state') != login_session['state']:
-        response = make_response(json.dumps('Invalid state parameter.'
-                                 ), 401)
+        response = make_response(json.dumps('Invalid state parameter.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -67,14 +66,13 @@ def gconnect():
 
         # Upgrade the authorization code into a credentials object
 
-        oauth_flow = flow_from_clientsecrets('client_secrets.json',
-                scope='')
+        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
         response = \
-            make_response(json.dumps('Failed to upgrade the authorization code.'
-                          ), 401)
+            make_response(json.dumps(
+                'Failed to upgrade the authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -99,8 +97,8 @@ def gconnect():
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
         response = \
-            make_response(json.dumps("Token's user ID doesn't match given user ID."
-                          ), 401)
+            make_response(json.dumps(
+                "Token's user ID doesn't match given user ID."), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -108,8 +106,8 @@ def gconnect():
 
     if result['issued_to'] != CLIENT_ID:
         response = \
-            make_response(json.dumps("Token's client ID does not match app's."
-                          ), 401)
+            make_response(json.dumps(
+                "Token's client ID does not match app's."), 401)
         print "Token's client ID does not match app's."
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -118,8 +116,8 @@ def gconnect():
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
         response = \
-            make_response(json.dumps('Current user is already connected.'
-                          ), 200)
+            make_response(json.dumps(
+                'Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -154,7 +152,8 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
     output += \
-        ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+        ' " style = "width: 300px; height: 300px;border-radius: 150px;\
+        -webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash('you are now logged in as %s' % login_session['username'])
     print 'done!'
     return output
@@ -168,8 +167,7 @@ def createUser(login_session):
                    picture=login_session['picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email'
-            ]).one()
+    user = session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
 
@@ -215,17 +213,14 @@ def gdisconnect():
         del login_session['email']
         del login_session['picture']
 
-        response = make_response(json.dumps('Successfully disconnected.'
-                                 ), 200)
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return redirect(url_for('catalog'))
     else:
 
         # For whatever reason, the given token was invalid.
-
-        response = \
-            make_response(json.dumps('Failed to revoke token for given user.'
-                          , 400))
+        response = make_response(json.dumps(
+            'Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -260,12 +255,10 @@ def catalogJSON():
 @app.route('/catalog/')
 def catalog():
     categories = session.query(SportCategory).all()
-    items = \
-        session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
-    latestItem = session.query(SportItem,
-                               SportCategory).outerjoin(SportCategory,
-            SportCategory.id
-            == SportItem.category_id).order_by(SportItem.id.desc()).limit(10)
+    items = session.query(SportItem).order_by(SportItem.id.desc()).limit(10)
+    latestItem = session.query(SportItem, SportCategory).outerjoin(
+        SportCategory, SportCategory.id == SportItem.category_id).\
+        order_by(SportItem.id.desc()).limit(10)
     return render_template('catalog.html', categories=categories,
                            items=items, latestItem=latestItem,
                            login_session=session)
@@ -293,7 +286,8 @@ def itemsJSON(category_name):
     currentcategory = \
         session.query(SportCategory).filter_by(name=category_name).one()
     itemsincategory = \
-        session.query(SportItem).filter_by(category_id=currentcategory.id).all()
+        session.query(SportItem).filter_by(
+            category_id=currentcategory.id).all()
     return jsonify(Items=[i.serialize for i in itemsincategory])
 
 
@@ -304,8 +298,8 @@ def itemDescription(category_name, item_name):
     currentcategory = \
         session.query(SportCategory).filter_by(name=category_name).one()
     item = \
-        session.query(SportItem).filter_by(category_id=currentcategory.id,
-            name=item_name).first()
+        session.query(SportItem).filter_by(
+            category_id=currentcategory.id, name=item_name).first()
     return render_template('sportitem.html', item=item,
                            category=currentcategory,
                            login_session=session)
@@ -316,11 +310,10 @@ def itemDescription(category_name, item_name):
 @app.route('/catalog/<path:category_name>/<path:item_name>.JSON')
 @app.route('/catalog/<path:category_name>/<path:item_name>.json')
 def itemJSON(category_name, item_name):
-    currentcategory = \
-        session.query(SportCategory).filter_by(name=category_name).one()
-    item = \
-        session.query(SportItem).filter_by(category_id=currentcategory.id,
-            name=item_name).first()
+    currentcategory = session.query(
+        SportCategory).filter_by(name=category_name).one()
+    item = session.query(SportItem).filter_by(
+        category_id=currentcategory.id, name=item_name).first()
     return jsonify(Item=item.serialize)
 
 
@@ -355,22 +348,27 @@ def editItem(category_name, item_name):
     currentcategory = \
         session.query(SportCategory).filter_by(name=category_name).one()
     itemToEdit = \
-        session.query(SportItem).filter_by(category_id=currentcategory.id,
-            name=item_name).one()
+        session.query(SportItem).filter_by(
+            category_id=currentcategory.id, name=item_name).one()
     if request.method == 'POST':
         if itemToEdit.user_id != login_session['user_id']:
-            return "<script>function myFunction() {alert('You are not authorized to edit this item. Please contact the developer in order to edit.');}</script><body onload='myFunction()'>"
+            return "<script>function myFunction() {alert('\
+            You are not authorized to edit this item.\
+            Please contact the developer in order to edit.\
+            ');}</script><body onload='myFunction()'>"
         itemToEdit.name = request.form['name']
         itemToEdit.description = request.form['description']
         itemToEdit.category = request.form['category']
         session.add(itemToEdit)
         session.commit()
         return redirect(url_for('itemDescription',
-                        category_name=category_name,
-                        item_name=item_name, i=itemToEdit))
+                                category_name=category_name,
+                                item_name=item_name, i=itemToEdit))
     else:
         if itemToEdit.user_id != login_session['user_id']:
-            return "<script>function myFunction() {alert('You are not authorized to edit this item. Please contact the developer if you believe this is an error.');}</script><body onload='myFunction()'>"
+            return "<script>function myFunction() {alert('You are not \
+            authorized to edit this item. Please contact the developer if you \
+            believe this is an error.');}</script><body onload='myFunction()'>"
         return render_template('editsportitem.html', i=itemToEdit,
                                categories=categories,
                                currentcategory=currentcategory)
@@ -383,17 +381,24 @@ def editItem(category_name, item_name):
 def deleteItem(category_name, item_name):
     currentcategory = \
         session.query(SportCategory).filter_by(name=category_name).one()
-    currentitem = session.query(SportItem).filter_by(name=item_name,
-            category_id=currentcategory.id).first()
+    currentitem = session.query(SportItem).filter_by(
+        name=item_name, category_id=currentcategory.id).first()
     if request.method == 'POST':
         if currentitem.user_id != login_session['user_id']:
-            return "<script>function myFunction() {alert('You are not authorized to delete this item. Please contact the developer if you believe this is an error.');}</script><body onload='myFunction()'>"
+            return "<script>function myFunction() {alert('\
+            You are not authorized to delete this item.\
+            Please contact the developer if you believe this is an error.');}\
+            </script><body onload='myFunction()'>"
         session.delete(currentitem)
         session.commit()
         return redirect(url_for('catalog'))
     else:
         if currentitem.user_id != login_session['user_id']:
-            return "<script>function myFunction() {alert('You are not authorized to delete this item. Please contact the developer if you believe this is an error.');}</script><body onload='myFunction()'>"
+            return "<script>function myFunction() {alert('\
+            You are not authorized to delete this item. \
+            Please contact the developer \
+            if you believe this is an error.');}\
+            </script><body onload='myFunction()'>"
         return render_template('deletesportitem.htmnl',
                                currentitem=currentitem,
                                currentcategory=currentcategory)
@@ -414,6 +419,7 @@ def newSport():
     else:
         return render_template('newcategory.html',
                                categories=categories)
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
