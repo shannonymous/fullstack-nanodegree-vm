@@ -7,9 +7,11 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-#================================
-#======= User Table Setup =======
-#================================
+# ================================
+# ======= User Table Setup =======
+# ================================
+
+
 class User(Base):
     __tablename__ = 'user'
 
@@ -32,9 +34,9 @@ class User(Base):
         }
 
 
-#================================
-#===Sport category table setup===
-#================================
+# ================================
+# ===Sport category table setup===
+# ================================
 class SportCategory(Base):
     __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
@@ -50,13 +52,13 @@ class SportCategory(Base):
         return {
             'id': self.id,
             'name': self.name,
-            'user_id':self.user_id,
+            'user_id': self.user_id,
         }
 
 
-#================================
-#=====Sport item table setup=====
-#================================
+# ================================
+# =====Sport item table setup=====
+# ================================
 class SportItem(Base):
 
     __tablename__ = 'sport_item'
@@ -78,11 +80,11 @@ class SportItem(Base):
             'description': self.description,
             'id': self.id,
             'category_id': self.category_id,
-            'user_id':self.user_id,
+            'user_id': self.user_id,
         }
 
 
-####end of file
+# end of file
 engine = create_engine('sqlite:///sportswithusers.db')
 
 Base.metadata.create_all(engine)
