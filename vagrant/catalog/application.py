@@ -272,10 +272,14 @@ def sport(category_name):
         session.query(SportCategory).filter_by(name=category_name).one()
     itemsincategory = \
         session.query(SportItem).filter_by(category_id=currentcategory.id)
+    item_count = \
+        session.query(SportItem).filter_by(
+            category_id=currentcategory.id).count()
     categories = session.query(SportCategory).all()
     return render_template('sport.html', categories=categories,
                            currentcategory=currentcategory,
-                           itemsincategory=itemsincategory)
+                           itemsincategory=itemsincategory,
+                           item_count=item_count)
 
 
 # Add endpoint for all items in category

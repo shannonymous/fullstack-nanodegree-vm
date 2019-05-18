@@ -28,7 +28,7 @@
       </div>
 
       <div class="right-split">
-        <h1>{{currentcategory.name}} Items (!count! Items)</h1></br></br>
+        <h1>{{currentcategory.name}} Items ({{ item_count }} Items)</h1></br></br>
         {% for i in itemsincategory %}
         <div>
           <p><a href="{{url_for('itemDescription', category_name = currentcategory.name, item_name = i.name)}}">{{i.name}}</a></p>
