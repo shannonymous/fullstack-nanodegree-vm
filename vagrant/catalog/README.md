@@ -21,3 +21,9 @@ To run the web application:
 7. You are now ready to run the catalog program. Run:
 `python application.py`
 7. Access the application by visiting http://localhost:8000 on your broswer of choice.
+
+
+## API Endpoints
+- `/catalog.json` returns all categories
+- `/users.json` returns information about users in the database
+- `/catalog/<path:category_name>/items.json` returns all items in category
