@@ -180,7 +180,7 @@ def getUserID(email):
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
-    except:
+    except DBAPIError:
         return None
 
 
@@ -189,7 +189,7 @@ def getUserID(email):
 @app.route('/gdisconnect')
 def gdisconnect():
 
-        # Only disconnect a connected user.
+    # Only disconnect a connected user.
 
     access_token = login_session.get('access_token')
     if access_token is None:
